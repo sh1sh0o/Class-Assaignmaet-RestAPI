@@ -1,0 +1,131 @@
+package com.example.demo;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+public class CalenderDAO {
+
+    private ArrayList<CalenderPOCO> list = new ArrayList<>();
+    private String db = "Calender";
+
+//    private Connection con = connection.getConnection(db,"791988ss");
+//    private Statement statement = connection.getStatement();
+
+    public CalenderPOCO get(int id){
+        CalenderPOCO poco = new CalenderPOCO();
+        try {
+            Class.forName("org.postgresql.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+db,"postgres","791988ss"
+            );
+            Statement statement=connection.createStatement();
+            var result=statement.executeQuery("select * from \"Holidays\"\n" +
+                    "where \"id\"="+id);
+            result.next();
+            poco.setId(result.getInt("id"));
+            poco.setName("\'"+result.getString("name")+"\'");
+            poco.setDay(result.getInt("day"));
+            poco.setMonth(result.getInt("month"));
+            poco.setLength(result.getInt("length"));
+            connection.close();
+            statement.close();
+            result.close();
+            System.out.println("MTA");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return poco;
+    }
+
+    public ArrayList<CalenderPOCO> getAll(){
+        CalenderPOCO poco = new CalenderPOCO();
+        try {
+            Class.forName("org.postgresql.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+db,"postgres","791988ss"
+            );
+            Statement statement=connection.createStatement();
+            var result=statement.executeQuery("select * from \"Holidays\"\n");
+            while(result.next()) {
+                poco.setId(result.getInt("id"));
+                poco.setName(result.getString("name"));
+                poco.setDay(result.getInt("day"));
+                poco.setMonth(result.getInt("month"));
+                poco.setLength(result.getInt("length"));
+                list.add(poco);
+            }
+           result.close();
+            connection.close();
+            statement.close();
+
+            System.out.println("MTA");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public void add(CalenderPOCO p){
+        try {
+            Class.forName("org.postgresql.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+db,"postgres","791988ss"
+            );
+            Statement statement=connection.createStatement();
+            var result=statement.executeUpdate("insert into \"Holidays\"(\"name\",\"day\",\"month\",\"length\")\n" +
+                    "values("+"\'"+p.getName()+"\'"+","+p.getDay()+","+p.getMonth()+","+p.getLength()+")"
+                    );
+
+            connection.close();
+            statement.close();
+
+            System.out.println("MTA");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update(CalenderPOCO p){
+        try {
+            Class.forName("org.postgresql.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+db,"postgres","791988ss"
+            );
+            Statement statement=connection.createStatement();
+            var result=statement.executeUpdate("update \"Holidays\"\n" +
+                    "set \"name\"=\n" +"\'"+p.getName()+"\'"+
+                    ",\"day\"=\n" +p.getDay()+
+                    ",\"month\"=\n" +p.getMonth()+
+                    ",\"length\"=\n" +p.getLength()+
+                    "where \"id\"="+p.getId()
+            );
+
+            connection.close();
+            statement.close();
+
+            System.out.println("MTA");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void remove(CalenderPOCO p){
+        try {
+            Class.forName("org.postgresql.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+db,"postgres","791988ss"
+            );
+            Statement statement=connection.createStatement();
+            var result=statement.executeUpdate("delete  from \"Holidays\"" +
+                    "  " +
+                    "where \"id\"="+p.getId()
+            );
+
+            connection.close();
+            statement.close();
+
+            System.out.println("MTA");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+}
