@@ -1,0 +1,42 @@
+package com.example.demo;
+
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+public class CalenderController {
+
+    @GetMapping("/calender/{id}")
+    public CalenderPOCO getpoco(@PathVariable int id){
+        CalenderDAO dao=new CalenderDAO();
+        return dao.get(id);
+    }
+
+    @GetMapping("/calender")
+    public List<CalenderPOCO> getallpoco() {
+        CalenderDAO dao = new CalenderDAO();
+        return dao.getAll();
+    }
+
+    @PostMapping("/calender")
+    public void  addpoco(@RequestBody CalenderPOCO p){
+        CalenderDAO dao=new CalenderDAO();
+        dao.add(p);
+        System.out.println(p);
+    }
+
+    @DeleteMapping("/calender")
+    public  void deletepoco(@RequestBody CalenderPOCO p){
+        CalenderDAO dao=new CalenderDAO();
+        dao.remove(p);
+    }
+
+    @PutMapping("/calender")
+    public void updatepoco(@RequestBody CalenderPOCO p){
+        CalenderDAO dao=new CalenderDAO();
+        dao.update(p);
+    }
+
+
+}
