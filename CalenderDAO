@@ -9,9 +9,6 @@ public class CalenderDAO {
 
     private String db = "Calender";
 
-//    private Connection con = connection.getConnection(db,"791988ss");
-//    private Statement statement = connection.getStatement();
-
     public CalenderPOCO get(int id){
         CalenderPOCO poco = new CalenderPOCO();
         try {
@@ -38,7 +35,7 @@ public class CalenderDAO {
     }
 
     public ArrayList<CalenderPOCO> getAll(){
-        CalenderPOCO poco = new CalenderPOCO();
+
         ArrayList<CalenderPOCO> list = new ArrayList<>();
 
         try {
@@ -48,6 +45,7 @@ public class CalenderDAO {
             Statement statement=connection.createStatement();
             var result=statement.executeQuery("select * from \"Holidays\"\n");
             while(result.next()) {
+                CalenderPOCO poco = new CalenderPOCO();
                 poco.setId(result.getInt("id"));
                 poco.setName(result.getString("name"));
                 poco.setDay(result.getInt("day"));
