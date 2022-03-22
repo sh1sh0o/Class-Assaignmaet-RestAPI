@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 public class CalenderDAO {
 
-    private ArrayList<CalenderPOCO> list = new ArrayList<>();
     private String db = "Calender";
 
 //    private Connection con = connection.getConnection(db,"791988ss");
@@ -40,6 +39,8 @@ public class CalenderDAO {
 
     public ArrayList<CalenderPOCO> getAll(){
         CalenderPOCO poco = new CalenderPOCO();
+        ArrayList<CalenderPOCO> list = new ArrayList<>();
+
         try {
             Class.forName("org.postgresql.Driver");
             Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+db,"postgres","791988ss"
